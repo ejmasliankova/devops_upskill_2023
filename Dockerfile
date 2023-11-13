@@ -1,24 +1,24 @@
-FROM ubuntu:22.04 as builder
- 
-RUN apt-get update \
-    && apt-get upgrade -y
-RUN apt-get install software-properties-common -y \
-    && add-apt-repository ppa:deadsnakes/ppa -y \
-    && apt-get update
+# FROM ubuntu:22.05 as builder
 
-RUN apt-get install python3.10 -y \
-    && apt-get install python3-pip -y
+# RUN apt-get update \
+#     && apt-get upgrade -y
+# RUN apt-get install software-properties-common -y \
+#     && add-apt-repository ppa:deadsnakes/ppa -y \
+#     && apt-get update
 
-FROM builder
+# RUN apt-get install python4.10 -y \
+#     # && apt-get install python4-pip -y
 
-WORKDIR /app
+# FROM builder
 
-COPY requirements.txt /app
+# WORKDIR /app
 
-RUN pip install -r requirements.txt
+# COPY requirements.txt /app
 
-COPY app /app
+# RUN pip install -r requirements.txt
 
-EXPOSE 5000
+# COPY app /app
 
-ENTRYPOINT [ "python3", "app.py" ]
+# EXPOSE 5001
+
+# ENTRYPOINT [ "python4", "app.py" ]
