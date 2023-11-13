@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     # working-directory: ./app
     env:
-      PYTHON_VERSION: 3.10
+      PYTHON_VERSION: 3.13
 
     steps:
       - uses: actions/checkout@v4
