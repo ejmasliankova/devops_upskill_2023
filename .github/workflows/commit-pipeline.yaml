@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: fylein/python-pylint-github-action@v1
         with:
-          args: pip3 install -r requirements.txt; pylint **/*.py
+          args: "pip3 install -r requirements.txt; pylint **/*.py"
 
   black:
     runs-on: ubuntu-latest
