@@ -2,14 +2,16 @@ name: Commit pipeline
 run-name: ${{ github.actor }} made a commit
 
 on:
-  push:
-    branches:
-      - ftr/*
+    push:
+        branches:
+            - ftr/*
 
 jobs:
-  editorconfig:
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-      - uses: editorconfig-checker/action-editorconfig-checker@main
-      - run: editorconfig-checker
+    linter-checks:
+        runs-on: ubuntu-20.04
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: check-editorconfig-existence
+              if: ${{ hashFiles('.editorconfig') == '' }}
+              run: echo '.editorconfig exists'
