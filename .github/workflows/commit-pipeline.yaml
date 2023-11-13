@@ -22,9 +22,7 @@ jobs:
   pylint:
     runs-on: ubuntu-latest
     steps:
-      - uses: fylein/python-pylint-github-action@v1
-        with:
-          args: "pip3 install -r requirements.txt; pylint $(find . -name '*.py' | xargs)"
+      - uses: cclauss/GitHub-Action-for-pylint@0.7.0
 
   black:
     runs-on: ubuntu-latest
