@@ -16,6 +16,5 @@ jobs:
               if: ${{ hashFiles('.editorconfig') == '' }}
               run: echo '.editorconfig exists'
 
-            - name: check-editorconfig
-              uses: editorconfig-checker/action-editorconfig-checker@main
-              run: editorconfig-checker
+            - uses: editorconfig-checker/action-editorconfig-checker@main
+            - run: editorconfig-checker
