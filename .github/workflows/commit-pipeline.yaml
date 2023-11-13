@@ -7,14 +7,22 @@ on:
             - ftr/*
 
 jobs:
-    linter-checks:
-        runs-on: ubuntu-20.04
-        steps:
-            - uses: actions/checkout@v4
+    editorconfig:
+      runs-on: ubuntu-22.04
+      steps:
+          - uses: actions/checkout@v4
 
-            - name: check-editorconfig-existence
-              if: ${{ hashFiles('.editorconfig') == '' }}
-              run: echo '.editorconfig exists'
+          - name: check-editorconfig-existence
+            if: ${{ hashFiles('.editorconfig') == '' }}
+            run: echo '.editorconfig exists'
 
-            - uses: editorconfig-checker/action-editorconfig-checker@main
+          - uses: editorconfig-checker/action-editorconfig-checker@main
             - run: editorconfig-checker
+    
+    pythonlinting:
+      runs-on: ubuntu22.04
+      steps:
+        - name: Python Pylin GitHub Action
+          uses: fylein/python-pylint-github-action@v1
+          with:
+            args: pip3 install -r requirements.txt && pylint --rcfile=.pylintrc <directory_name>
