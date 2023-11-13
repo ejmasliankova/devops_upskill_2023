@@ -3,7 +3,8 @@ run-name:  ${{ github.actor }} made a commit
 
 on:
     push:
-        ftr/*
+        branches:
+            -  ftr/*
 
 jobs: 
     editorconfig:
