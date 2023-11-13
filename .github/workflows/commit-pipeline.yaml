@@ -38,7 +38,7 @@ jobs:
 
   unit-test:
     runs-on: ubuntu-latest
-    working-directory: ./app
+    # working-directory: ./app
     env:
       PYTHON_VERSION: 3.10
 
@@ -48,5 +48,6 @@ jobs:
         with:
           python-version: $PYTHON_VERSION
       - run: pip install -r requirements.txt
-      - run: cd app
+        working-directory: ./app
       - run: python -m unittest
+        working-directory: ./app
