@@ -1,0 +1,37 @@
+- name: Build, push and pull a Docker image
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  become: true
+  vars_files:
+    - secrets.yaml
+
+  tasks:
+    - name: Log in to DockerHub
+      docker_login:
+        username: "{{ docker_hub_username }}"
+        password: "{{ docker_hub_password }}"
+        email: "{{ docker_hub_email }}"
+
+    - name: Build Docker image
+      docker_image: 
+        path: "."
+        name: "evelonche/devops-programme"
+        tag: "0.4"
+        state: present
+        source: build
+    
+    - name: Push Docker container to Docker Hub
+      docker_image: 
+        name: "evelonche/devops-programme"
+        tag: "0.4"
+        push: yes
+        source: push
+    
+    - name: Run Docker container 
+      docker_container:
+        name: "devops-course"  
+        image: "evelonche/devops-programme:0.4"
+        state: started
+        recreate: yes
+        published ports: "5000:5000"
