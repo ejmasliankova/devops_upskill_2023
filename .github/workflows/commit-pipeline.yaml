@@ -2,27 +2,26 @@ name: Commit pipeline
 run-name: ${{ github.actor }} made a commit
 
 on:
-    push:
-        branches:
-            - ftr/*
+  push:
+    branches:
+      - ftr/*
 
 jobs:
-    editorconfig:
-      runs-on: ubuntu-22.04
-      steps:
-          - uses: actions/checkout@v4
+  editorconfig:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
 
-          - name: check-editorconfig-existence
-            if: ${{ hashFiles('.editorconfig') == '' }}
-            run: echo '.editorconfig exists'
+      - name: check-editorconfig-existence
+        if: ${{ hashFiles('.editorconfig') == '' }}
+        run: echo '.editorconfig exists'
 
-          - uses: editorconfig-checker/action-editorconfig-checker@main
-            - run: editorconfig-checker
-    
-    pythonlinting:
-      runs-on: ubuntu22.04
-      steps:
-        - name: Python Pylin GitHub Action
-          uses: fylein/python-pylint-github-action@v1
-          with:
-            args: pip3 install -r requirements.txt && pylint --rcfile=.pylintrc <directory_name>
+      - uses: editorconfig-checker/action-editorconfig-checker@main
+      - run: editorconfig-checker
+
+  pythonlinting:
+    runs-on: ubuntu22.04
+    steps:
+      - uses: fylein/python-pylint-github-action@v1
+        with:
+          args: pip3 install -r requirements.txt && pylint --rcfile=.pylintrc <directory_name>
