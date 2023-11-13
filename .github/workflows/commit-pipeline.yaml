@@ -10,7 +10,7 @@ jobs:
   editorconfig:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@
+      - uses: actions/checkout@v4
 
       - name: check-editorconfig-existence
         if: ${{ hashFiles('.editorconfig') == '' }}
@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: psf/black@stable
-v4
+
   markdown-check:
     runs-on: ubuntu-latest
     steps:
