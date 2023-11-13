@@ -8,7 +8,7 @@ on:
 
 jobs:
   editorconfig:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
 
@@ -19,9 +19,14 @@ jobs:
       - uses: editorconfig-checker/action-editorconfig-checker@main
       - run: editorconfig-checker
 
-  pythonlinting:
-    runs-on: ubuntu22.04
+  pylint:
+    runs-on: ubuntu20.04
     steps:
       - uses: fylein/python-pylint-github-action@v1
         with:
           args: pip3 install -r requirements.txt && pylint --rcfile=.pylintrc <directory_name>
+
+  black:
+    runs-on: ubuntu22.04
+    steps:
+      - uses: psf/black@stable
