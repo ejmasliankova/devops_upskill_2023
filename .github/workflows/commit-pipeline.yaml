@@ -38,15 +38,11 @@ jobs:
 
   unit-test:
     runs-on: ubuntu-latest
-    # working-directory: ./app
-    env:
-      PYTHON_VERSION: 3.13
-
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
-          python-version: $PYTHON_VERSION
+          python-version: 3.13
       - run: pip install -r requirements.txt
         working-directory: ./app
       - run: python -m unittest
