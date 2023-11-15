@@ -4,85 +4,90 @@ run-name: ${{ github.actor }} made a commit
 on:
   push:
     branches:
-      - ftr/*
+    - ftr/*
 
 jobs:
   editorconfig:
     name: "Check for .editorconfig"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: check-editorconfig-existence
-        if: ${{ hashFiles('.editorconfig') == '' }}
-        run: echo '.editorconfig exists'
+    - name: check-editorconfig-existence
+      if: ${{ hashFiles('.editorconfig') == '' }}
+      run: echo '.editorconfig exists'
 
-      - uses: editorconfig-checker/action-editorconfig-checker@main
-      - run: editorconfig-checker
+    - uses: editorconfig-checker/action-editorconfig-checker@main
+    - run: editorconfig-checker
 
   pylint:
     name: "Check with Pylint"
     runs-on: ubuntu-latest
     steps:
-      - uses: cclauss/GitHub-Action-for-pylint@0.7.0
+    - uses: cclauss/GitHub-Action-for-pylint@0.7.0
 
   black:
     name: "Check formatting with Black"
     runs-on: ubuntu-latest
     steps:
-      - uses: psf/black@stable
+    - uses: psf/black@stable
 
   markdown-check:
     name: "Check markdown"
     runs-on: ubuntu-latest
     steps:
-      - uses: nosborn/github-action-markdown-cli@v3.3.0
-        with:
-          files: .
+    - uses: nosborn/github-action-markdown-cli@v3.3.0
+      with:
+        files: .
 
   unit-test:
     name: "Run unit test"
     runs-on: ubuntu-latest
+    needs:
+    - editorconfig
+    - pylint
+    - black
+    - markdown-check
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-      - run: pip install -r requirements.txt
-        working-directory: ./app
-      - run: python -m unittest
-        working-directory: ./app
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+    - run: pip install -r requirements.txt
+      working-directory: ./app
+    - run: python -m unittest
+      working-directory: ./app
 
   gitleaks:
     name: "Check for leaks in secrets with gitleaks"
     runs-on: ubuntu-latest
     needs: unit-test
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - uses: gitleaks/gitleaks-action@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   sonar_cloud:
     name: "Run SonarCloud"
     runs-on: ubuntu-latest
     needs: gitleaks
     steps:
-      - uses: actions/checkout@v4
-      - uses: AppThreat/sast-scan-action@master
-        with:
-          type: "python"
+    - uses: actions/checkout@v4
+    - uses: AppThreat/sast-scan-action@master
+      with:
+        type: "python"
 
   vulnerability:
     name: "Check for vulnerabilities with Snyk"
     runs-on: ubuntu-latest
     needs: sonar_cloud
     steps:
-      - uses: actions/checkout@v4
-      - uses: snyk/actions/python-3.10@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --severity-threshold=high
+    - uses: actions/checkout@v4
+    - uses: snyk/actions/python-3.10@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        args: --severity-threshold=high
