@@ -2,12 +2,13 @@ FROM ubuntu:22.04 as builder
 
 RUN apt-get update \
     && apt-get upgrade -y
+
 RUN apt-get install software-properties-common -y \
     && add-apt-repository ppa:deadsnakes/ppa -y \
     && apt-get update
 
 RUN apt-get install python3.10 -y \
-    && apt-get install python4-pip -y
+    && apt-get install python3-pip -y
 
 FROM builder
 
