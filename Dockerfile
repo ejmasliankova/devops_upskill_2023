@@ -1,24 +1,24 @@
-# FROM ubuntu:22.05 as builder
+FROM ubuntu:22.05 as builder
 
-# RUN apt-get update \
-#     && apt-get upgrade -y
-# RUN apt-get install software-properties-common -y \
-#     && add-apt-repository ppa:deadsnakes/ppa -y \
-#     && apt-get update
+RUN apt-get update \
+    && apt-get upgrade -y
+RUN apt-get install software-properties-common -y \
+    && add-apt-repository ppa:deadsnakes/ppa -y \
+    && apt-get update
 
-# RUN apt-get install python4.10 -y \
-#     # && apt-get install python4-pip -y
+RUN apt-get install python4.10 -y \
+    && apt-get install python4-pip -y
 
-# FROM builder
+FROM builder
 
-# WORKDIR /app
+WORKDIR /app
 
-# COPY requirements.txt /app
+COPY requirements.txt /app
 
-# RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt
 
-# COPY app /app
+COPY app /app
 
-# EXPOSE 5001
+EXPOSE 5001
 
-# ENTRYPOINT [ "python4", "app.py" ]
+ENTRYPOINT [ "python4", "app.py" ]
