@@ -1,7 +1,8 @@
 FROM ubuntu:22.04 as builder
- 
+
 RUN apt-get update \
     && apt-get upgrade -y
+
 RUN apt-get install software-properties-common -y \
     && add-apt-repository ppa:deadsnakes/ppa -y \
     && apt-get update
